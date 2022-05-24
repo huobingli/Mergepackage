@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="window-size" content="title=vue&width=1200&height=680&scroll=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <% if(VUE_APP_USEDEVTOOLS==='true'){ %>
+  <script src="http://localhost:8098"></script>
+  <% } %> <% if(VUE_APP_CURRENTMODE === 'production'){ %>
+  <script src="js/shield.js"></script>
+  <% } %>
+</head>
+<style> 
+  html,
+  body {
+    margin:0;
+    min-height:900px;
+    min-width:1000px;
+  }
+</style>
+<body>
+  <noscript>
+    <strong>We're sorry but vue3.1 doesn't work properly without JavaScript enabled. Please enable it to
+      continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+  <script src="js/d3_charts.js" >
+  </script>
+</body>
+
+</html>
