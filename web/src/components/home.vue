@@ -63,6 +63,7 @@ export default {
       }
 
       if (jrzd_package != "" && xd_package != "") {
+        // 这里localhost发布需要修改成对应机器地址
         let request = "http://localhost:7001/CallFunc?jrzd=" + jrzd_package + "&xiadan=" + xd_package
         console.log(request)
         Axios.get(request, {}).then((res) => {

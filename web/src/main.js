@@ -1,14 +1,3 @@
-// console.log(process.env);
-// import devtools from '@vue/devtools';
-
-// console.log(process.env);
-// if (process.env.NODE_ENV === 'development' && process.env.VUE_APP_USEDEVTOOLS === 'true') {
-//   const devtools = require('@vue/devtools');
-//   devtools.connect(
-//     'http://localhost',
-//     '8098'
-//   );
-// }
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
