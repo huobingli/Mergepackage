@@ -16,6 +16,7 @@ import (
 
 const BaseUploadPath = "C:\\ci_auto_publish\\"
 
+// cors中间件
 func Cors() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		method := c.Request.Method
@@ -37,15 +38,28 @@ func Cors() gin.HandlerFunc {
 //启动
 func main() {
 	router := gin.Default()
+
+	// 加载CORS中间件
 	router.Use(Cors())
 
+	// 加载打包页面
+	router.LoadHTMLFiles("./html/index.html")
+	//加载静态资源，例如网页的css、js
+	router.Static("/html", "./html")
+	//加载单个静态文件
+	router.StaticFile("./favicon.ico", "./html/favicon.ico")
+	router.GET("/", func(context *gin.Context) {
+		context.HTML(http.StatusOK, "index.html", nil)
+	})
+
+	// 增加接口
 	router.POST("/upload_file", HandleUploadFile)
 	router.POST("/upload_muti_file", HandleUploadMutiFile)
 	router.GET("/download", HandleDownloadFile)
 	router.GET("/getUrl", Get)
 	router.GET("/file", HandleShowFile)
 	router.GET("/CallFunc", CallFunc)
-	router.Run(":7001")
+	router.Run("10.10.38.32:7001")
 }
 
 func CallFunc(c *gin.Context) {
@@ -55,7 +69,9 @@ func CallFunc(c *gin.Context) {
 	fmt.Println("CallFunc:", xiadan, jrzd)
 
 	var out bytes.Buffer
-	cmd := exec.Command("cmd.exe", "/c", "D://GitProject//Mergepackage//web//test.bat")
+	bat_cmd := "test.bat " + jrzd + " " + xiadan
+	fmt.Println(bat_cmd)
+	cmd := exec.Command("cmd.exe", "/c", bat_cmd)
 	cmd.Stdout = &out
 	err := cmd.Run()
 	if err != nil {

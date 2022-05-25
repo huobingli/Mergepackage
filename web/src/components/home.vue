@@ -19,6 +19,14 @@
           </el-input>
         </el-col>
       </el-row>
+      <el-row>
+        <el-col :span="6">包版本</el-col>
+        <el-col :span="12">
+          <el-checkbox v-model="check_ceshi">测试包</el-checkbox>
+          <el-checkbox v-model="check_publish">发布包</el-checkbox>
+          <el-checkbox v-model="check_zip">发布zip包</el-checkbox>
+        </el-col>
+      </el-row>
     </el-main>
 
     <el-footer><el-button @click="MergePackage">打包</el-button></el-footer>
@@ -31,34 +39,37 @@ import Axios from "axios";
 export default {
   data() {
     return {
-        jrzd_input:'',
-        xiadan_input:''
+      jrzd_input: "",
+      xiadan_input: "",
+      check_ceshi: "",
+      check_publish: "",
+      check_zip: "",
     };
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
-    MergePackage () {
-        let jrzd_package = this.jrzd_input
-        let xd_package = this.xiadan_input
+    MergePackage() {
+      let jrzd_package = this.jrzd_input
+      let xd_package = this.xiadan_input
 
-        if (jrzd_package == "") {
-            // alert("请输入正确的金融终端包")
-            this.$message.error('请输入正确的金融终端包');
-        }
+      if (jrzd_package == "") {
+        // alert("请输入正确的金融终端包")
+        this.$message.error("请输入正确的金融终端包")
+      }
 
-        if (xd_package == "") {
-            // alert("请输入正确的下单包")
-            this.$message.error('请输入正确的下单包');
-        }
+      if (xd_package == "") {
+        // alert("请输入正确的下单包")
+        this.$message.error("请输入正确的下单包")
+      }
 
+      if (jrzd_package != "" && xd_package != "") {
         let request = "http://localhost:7001/CallFunc?jrzd=" + jrzd_package + "&xiadan=" + xd_package
-
         console.log(request)
         Axios.get(request, {}).then((res) => {
           console.log(res)
         });
-    }
+      }
+    },
   },
 };
 </script>
