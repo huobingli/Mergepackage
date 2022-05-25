@@ -53,12 +53,10 @@ export default {
       let xd_package = this.xiadan_input
 
       if (jrzd_package == "") {
-        // alert("请输入正确的金融终端包")
         this.$message.error("请输入正确的金融终端包")
       }
 
       if (xd_package == "") {
-        // alert("请输入正确的下单包")
         this.$message.error("请输入正确的下单包")
       }
 
