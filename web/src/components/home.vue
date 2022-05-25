@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import Axios from "axios";
+
 export default {
   data() {
     return {
@@ -50,26 +52,12 @@ export default {
             this.$message.error('请输入正确的下单包');
         }
 
-        var extras = "D://GitProject//Mergepackage//web";
-        // var cldPro = require("child_process");
-        // const { exec } = require('child_process');
+        let request = "http://localhost:7001/CallFunc?jrzd=" + jrzd_package + "&xiadan=" + xd_package
 
-        var cmdStr = "chcp 65001 && " + extras + "/test.bat";
-        console.log(cmdStr)
-        const _this = this;
-        child_process.exec(cmdStr, function (error, stdout, stderr) {
-            // _this.showCommonAlert("SUC0002");
-            console.log(error)
-            console.log(stdout)
-            console.log(stderr)
+        console.log(request)
+        Axios.get(request, {}).then((res) => {
+          console.log(res)
         });
-
-        // const { spawn } = require('child_process');
-        // const bat = child_process.spawn('cmd.exe', ['/c', 'D://GitProject//Mergepackage//web//test.bat']);
-
-        // bat.stdout.on('data', (data) => {
-        // console.log(data.toString());
-        // });
     }
   },
 };
