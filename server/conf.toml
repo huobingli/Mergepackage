@@ -1,0 +1,6 @@
+#pdb路径
+jrzd_dir="D:\\gitProject\\Mergepackage\\server\\package\\jrzd"
+#上传文件路径
+xd_dir="D:\\gitProject\\Mergepackage\\server\\package\\xd"
+#文件服务根目录
+zip_dir="D:\\gitProject\\Mergepackage\\server\\package\\zip"

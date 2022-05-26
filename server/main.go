@@ -14,8 +14,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const BaseUploadPath = "C:\\ci_auto_publish\\"
-
 // cors中间件
 func Cors() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -38,7 +36,13 @@ func Cors() gin.HandlerFunc {
 //启动
 func main() {
 	router := gin.Default()
-
+	cur_path, _ := os.Getwd()
+	if err := load_config(cur_path + "\\conf.toml"); err != nil {
+		fmt.Println("success")
+	} else {
+		fmt.Println("error")
+		return
+	}
 	// 加载CORS中间件
 	router.Use(Cors())
 
@@ -58,18 +62,23 @@ func main() {
 	router.GET("/download", HandleDownloadFile)
 	router.GET("/getUrl", Get)
 	router.GET("/file", HandleShowFile)
-	router.GET("/CallFunc", CallFunc)
-	router.Run("10.10.38.32:7001")
+	router.GET("/CallMergePackage", CallMergePackage)
+	router.GET("/CallZipPackage", CallZipPackage)
+
+	// 文件服务器
+	// router.GET("/packageFile", CallFileServe)
+	path := "D:\\gitProject\\Mergepackage\\server\\package"
+	router.StaticFS("/packageFile2", http.Dir(path))
+	router.Run(":7001")
 }
 
-func CallFunc(c *gin.Context) {
+func CallMergePackage(c *gin.Context) {
 	jrzd := c.Query("jrzd")
 	xiadan := c.Query("xiadan")
-
-	fmt.Println("CallFunc:", xiadan, jrzd)
+	fmt.Println("CallMergePackage:", xiadan, jrzd)
 
 	var out bytes.Buffer
-	bat_cmd := "test.bat " + jrzd + " " + xiadan
+	bat_cmd := "merge_package.bat " + jrzd + " " + xiadan
 	fmt.Println(bat_cmd)
 	cmd := exec.Command("cmd.exe", "/c", bat_cmd)
 	cmd.Stdout = &out
@@ -79,6 +88,28 @@ func CallFunc(c *gin.Context) {
 	}
 
 	fmt.Println("%s", out.String())
+}
+
+func CallZipPackage(c *gin.Context) {
+	jrzd := c.Query("jrzd")
+	fmt.Println("CallZipPackage:", jrzd)
+
+	var out bytes.Buffer
+	bat_cmd := "zip_package.bat " + jrzd
+	fmt.Println(bat_cmd)
+	cmd := exec.Command("cmd.exe", "/c", bat_cmd)
+	cmd.Stdout = &out
+	err := cmd.Run()
+	if err != nil {
+		log.Println(err)
+	}
+
+	fmt.Println("%s", out.String())
+}
+
+func CallFileServe(c *gin.Context) {
+	// path := "D:\\gitProject\\Mergepackage\\server\\package"
+	// c.File()
 }
 
 //错误
