@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/BurntSushi/toml"
 )
 
@@ -24,11 +22,8 @@ func load_default_config() error {
 }
 
 func load_config(path string) error {
-	fmt.Println(path)
 	if _, err := toml.DecodeFile(path, &cf); err != nil {
-		print(err)
 		return err
 	}
-
 	return nil
 }

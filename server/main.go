@@ -11,8 +11,25 @@ import (
 	"os/exec"
 	"time"
 
+	"github.com/BurntSushi/toml"
 	"github.com/gin-gonic/gin"
 )
+
+type conf struct {
+	Jrzd_dir string
+	Xd_dir   string
+	Zip_dir  string
+}
+
+var cf conf
+
+func loadConfig(path string) error {
+	if _, err := toml.DecodeFile(path, &cf); err != nil {
+		return err
+	}
+	fmt.Println(cf)
+	return nil
+}
 
 // cors中间件
 func Cors() gin.HandlerFunc {
@@ -36,13 +53,14 @@ func Cors() gin.HandlerFunc {
 //启动
 func main() {
 	router := gin.Default()
-	// cur_path, _ := os.Getwd()
-	// if err := load_config(cur_path + "\\conf.toml"); err != nil {
-	// 	fmt.Println("success")
-	// } else {
-	// 	fmt.Println("error")
-	// 	return
-	// }
+	cur_path, _ := os.Getwd()
+	fmt.Println(cur_path)
+	if err := loadConfig("./conf.toml"); err != nil {
+		fmt.Println("load conf failed !!!")
+		return
+	} else {
+		fmt.Println("load conf succeed")
+	}
 	// 加载CORS中间件
 	router.Use(Cors())
 
@@ -66,9 +84,13 @@ func main() {
 	router.GET("/CallZipPackage", CallZipPackage)
 
 	// 文件服务器
-	// router.GET("/packageFile", CallFileServe)
-	path := "D:\\gitProject\\Mergepackage\\server\\package"
-	router.StaticFS("/packageFile2", http.Dir(path))
+	// path := "D:\\gitProject\\Mergepackage\\server\\package"
+	fmt.Println(cf.Zip_dir)
+	fmt.Println(cf.Xd_dir)
+	fmt.Println(cf.Jrzd_dir)
+	router.StaticFS("/zipDir", http.Dir(cf.Zip_dir))
+	router.StaticFS("/xdDir", http.Dir(cf.Xd_dir))
+	router.StaticFS("/jrzdDir", http.Dir(cf.Jrzd_dir))
 	router.Run(":7001")
 }
 
@@ -105,11 +127,6 @@ func CallZipPackage(c *gin.Context) {
 	}
 
 	fmt.Println("%s", out.String())
-}
-
-func CallFileServe(c *gin.Context) {
-	// path := "D:\\gitProject\\Mergepackage\\server\\package"
-	// c.File()
 }
 
 //错误
