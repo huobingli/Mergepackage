@@ -24,8 +24,8 @@ function formatDate(date, pattern) {
   return pattern;
 }
 
-  BASE_URL = './';
-  // BASE_URL = '/html';
+  // BASE_URL = './';
+  BASE_URL = '/html';
 // console.log(process.env.NODE_ENV);
 module.exports = {
   baseUrl: BASE_URL, //生产环境打包资源的前缀地址

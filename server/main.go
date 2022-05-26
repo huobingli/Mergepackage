@@ -36,13 +36,13 @@ func Cors() gin.HandlerFunc {
 //启动
 func main() {
 	router := gin.Default()
-	cur_path, _ := os.Getwd()
-	if err := load_config(cur_path + "\\conf.toml"); err != nil {
-		fmt.Println("success")
-	} else {
-		fmt.Println("error")
-		return
-	}
+	// cur_path, _ := os.Getwd()
+	// if err := load_config(cur_path + "\\conf.toml"); err != nil {
+	// 	fmt.Println("success")
+	// } else {
+	// 	fmt.Println("error")
+	// 	return
+	// }
 	// 加载CORS中间件
 	router.Use(Cors())
 

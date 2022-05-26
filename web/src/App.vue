@@ -2,7 +2,8 @@
   <div id="app">
     <el-tabs class="app_navigate" v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="行情下单合包" name="home"></el-tab-pane>
-      <el-tab-pane label="发布包制作" name="publish"></el-tab-pane>
+      <el-tab-pane label="发布包制作" name="package"></el-tab-pane>
+      <el-tab-pane label="发布包上传平台" name="publish"></el-tab-pane>
     </el-tabs>
     <router-view />
   </div>

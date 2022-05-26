@@ -19,14 +19,6 @@
           </el-input>
         </el-col>
       </el-row>
-      <el-row>
-        <el-col :span="6">包版本</el-col>
-        <el-col :span="12">
-          <el-checkbox v-model="check_ceshi">测试包</el-checkbox>
-          <el-checkbox v-model="check_publish">发布包</el-checkbox>
-          <el-checkbox v-model="check_zip">发布zip包</el-checkbox>
-        </el-col>
-      </el-row>
     </el-main>
 
     <el-footer><el-button @click="MergePackage">打包</el-button></el-footer>
