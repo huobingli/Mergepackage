@@ -5,9 +5,9 @@ import (
 )
 
 type conf struct {
-	jrzd_dir string
-	xd_dir   string
-	zip_dir  string
+	Jrzd_dir string
+	Xd_dir   string
+	Zip_dir  string
 }
 
 var cf conf

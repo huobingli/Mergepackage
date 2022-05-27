@@ -11,25 +11,8 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/BurntSushi/toml"
 	"github.com/gin-gonic/gin"
 )
-
-type conf struct {
-	Jrzd_dir string
-	Xd_dir   string
-	Zip_dir  string
-}
-
-var cf conf
-
-func loadConfig(path string) error {
-	if _, err := toml.DecodeFile(path, &cf); err != nil {
-		return err
-	}
-	fmt.Println(cf)
-	return nil
-}
 
 // cors中间件
 func Cors() gin.HandlerFunc {
@@ -55,7 +38,7 @@ func main() {
 	router := gin.Default()
 	cur_path, _ := os.Getwd()
 	fmt.Println(cur_path)
-	if err := loadConfig("./conf.toml"); err != nil {
+	if err := load_config("./conf.toml"); err != nil {
 		fmt.Println("load conf failed !!!")
 		return
 	} else {
