@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 
+	"Mergepackage/server/service/config"
 	"github.com/gin-gonic/gin"
 )
 
@@ -35,12 +36,20 @@ func main() {
 	router := gin.Default()
 	cur_path, _ := os.Getwd()
 	fmt.Println(cur_path)
-	if err := load_config("./conf.toml"); err != nil {
+	//if err := config.Load_config("./server/conf.toml"); err != nil {
+	//	fmt.Println("load conf failed !!!")
+	//	return
+	//} else {
+	//	fmt.Println("load conf succeed")
+	//}
+	cfi, err := config.Load_config_new("./server/conf.toml");
+	if  err != nil {
 		fmt.Println("load conf failed !!!")
 		return
-	} else {
+	}  else {
 		fmt.Println("load conf succeed")
 	}
+
 	// 加载CORS中间件
 	router.Use(Cors())
 
@@ -57,14 +66,14 @@ func main() {
 	// 增加接口
 	router.GET("/CallMergePackage", CallMergePackage)
 	router.GET("/CallZipPackage", CallZipPackage)
-
+	router.GET("/GetDirFiles", GetDirFiles)
 	// 静态文件服务
-	fmt.Println(cf.Zip_dir)
-	fmt.Println(cf.Xd_dir)
-	fmt.Println(cf.Jrzd_dir)
-	router.StaticFS("/zipDir", http.Dir(cf.Zip_dir))
-	router.StaticFS("/xdDir", http.Dir(cf.Xd_dir))
-	router.StaticFS("/jrzdDir", http.Dir(cf.Jrzd_dir))
+	fmt.Println(cfi.Zip_dir)
+	fmt.Println(cfi.Xd_dir)
+	fmt.Println(cfi.Jrzd_dir)
+	router.StaticFS("/zipDir", http.Dir(cfi.Zip_dir))
+	router.StaticFS("/xdDir", http.Dir(cfi.Xd_dir))
+	router.StaticFS("/jrzdDir", http.Dir(cfi.Jrzd_dir))
 	router.Run(":7001")
 }
 
@@ -101,4 +110,8 @@ func CallZipPackage(c *gin.Context) {
 	}
 
 	fmt.Println("%s", out.String())
+}
+
+func GetDirFiles(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"msg": "文件读取失败"})
 }
