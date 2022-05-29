@@ -36,12 +36,6 @@ func main() {
 	router := gin.Default()
 	cur_path, _ := os.Getwd()
 	fmt.Println(cur_path)
-	//if err := config.Load_config("./server/conf.toml"); err != nil {
-	//	fmt.Println("load conf failed !!!")
-	//	return
-	//} else {
-	//	fmt.Println("load conf succeed")
-	//}
 	cfi, err := config.Load_config_new("./server/conf.toml");
 	if  err != nil {
 		fmt.Println("load conf failed !!!")
