@@ -10,12 +10,6 @@ type conf struct {
 	Zip_dir  string
 }
 
-type Confi struct {
-	Jrzd_dir string
-	Xd_dir   string
-	Zip_dir  string
-}
-
 var cf conf
 
 func load_default_config() error {
