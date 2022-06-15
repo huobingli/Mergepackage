@@ -10,8 +10,17 @@ import (
 )
 
 type conf struct {
-	File_path  string
-	Ret_string string
+	Filepath          string
+	Updateurl         string
+	Updatedescription string
+	Isupdate          string
+	Issilence         string
+	Forceupdate       string
+	Updatesize        string
+	Md5value          string
+	Targetversion     string
+	Componentitems    string
+	Protocolversion   string
 }
 
 var cf conf
@@ -76,9 +85,8 @@ func main() {
 		c.XML(http.StatusOK, gin.H{"message": "hey", "status": http.StatusOK})
 	})
 	// 静态文件服务
-	fmt.Println(cf.File_path)
-	fmt.Println(cf.Ret_string)
-	router.StaticFS("/Path", http.Dir(cf.File_path))
+	fmt.Println(cf.Filepath)
+	router.StaticFS("/Path", http.Dir(cf.Filepath))
 	router.Run(":7001")
 }
 
@@ -86,7 +94,7 @@ func GetDirFiles(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"msg": "文件读取失败"})
 }
 
-type HevoUpdateInfo struct {
+type Hevoupdate struct {
 	UpdateUrl         string
 	UpdateDescription string
 	IsUpdate          string
@@ -99,23 +107,25 @@ type HevoUpdateInfo struct {
 }
 
 type Hevo struct {
-	HevoUpdate      HevoUpdateInfo
+	HevoUpdate      Hevoupdate
 	ProtocolVersion string
 }
 
 func GetUrl(c *gin.Context) {
+	var ret Hevoupdate
+	ret = Hevoupdate{
+		UpdateUrl:         cf.Updateurl,
+		UpdateDescription: cf.Updatedescription,
+		IsUpdate:          cf.Isupdate,
+		IsSilence:         cf.Issilence,
+		ForceUpdate:       cf.Forceupdate,
+		UpdateSize:        cf.Updatesize,
+		MD5Value:          cf.Md5value,
+		TargetVersion:     cf.Targetversion,
+		ComponentItems:    cf.Componentitems,
+	}
 	c.XML(http.StatusOK, Hevo{
-		HevoUpdate{
-			UpdateUrl:         "http://www.baidu.com",
-			UpdateDescription: "更新描述",
-			IsUpdate:          "true",
-			IsSilence:         "true",
-			ForceUpdate:       "true",
-			UpdateSize:        "100",
-			MD5Value:          "123123321",
-			TargetVersion:     "1.0.0",
-			ComponentItems:    "1.0.0.1",
-		},
-		ProtocolVersion: "3.3",
+		HevoUpdate:      ret,
+		ProtocolVersion: cf.Protocolversion,
 	})
 }
