@@ -9,6 +9,7 @@ import (
 	"os/exec"
 
 	"Mergepackage/server/service/config"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,11 +37,11 @@ func main() {
 	router := gin.Default()
 	cur_path, _ := os.Getwd()
 	fmt.Println(cur_path)
-	cfi, err := config.Load_config_new("./server/conf.toml");
-	if  err != nil {
+	cfi, err := config.Load_config_new("./conf.toml")
+	if err != nil {
 		fmt.Println("load conf failed !!!")
 		return
-	}  else {
+	} else {
 		fmt.Println("load conf succeed")
 	}
 
