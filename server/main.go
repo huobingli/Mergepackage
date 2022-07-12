@@ -59,9 +59,12 @@ func main() {
 	})
 
 	// 增加接口
-	router.GET("/CallMergePackage", CallMergePackage)
+	router.GET("/CallTestPackageMaker", CallTestPackageMaker)
+	router.GET("/CallPageParse", CallPageParse)
 	router.GET("/CallZipPackage", CallZipPackage)
 	router.GET("/GetDirFiles", GetDirFiles)
+
+	router.POST("/CallMergePackage2", CallMergePackage2)
 	// 静态文件服务
 	fmt.Println(cfi.Zip_dir)
 	fmt.Println(cfi.Xd_dir)
@@ -72,13 +75,13 @@ func main() {
 	router.Run(":7001")
 }
 
-func CallMergePackage(c *gin.Context) {
+func CallTestPackageMaker(c *gin.Context) {
 	jrzd := c.Query("jrzd")
 	xiadan := c.Query("xiadan")
-	fmt.Println("CallMergePackage:", xiadan, jrzd)
+	fmt.Println("CallTestPackageMaker:", xiadan, jrzd)
 
 	var out bytes.Buffer
-	bat_cmd := "merge_package.bat " + jrzd + " " + xiadan
+	bat_cmd := "testPackageMaker.bat " + jrzd + " " + xiadan
 	fmt.Println(bat_cmd)
 	cmd := exec.Command("cmd.exe", "/c", bat_cmd)
 	cmd.Stdout = &out
@@ -88,6 +91,40 @@ func CallMergePackage(c *gin.Context) {
 	}
 
 	fmt.Println("%s", out.String())
+}
+
+func CallPageParse(c *gin.Context) {
+	// cmd := exec.Command("python.exe", "PackPageParser.py")
+	// out, err := cmd.CombinedOutput()
+	// if err != nil {
+	// 	fmt.Printf("combined out:\n%s\n", string(out))
+	// 	log.Fatalf("cmd.Run() failed with %s\n", err)
+	// }
+	// fmt.Printf("combined out:\n%s\n", string(out))
+	// c.JSON(http.StatusOK, gin.H{"data": string(out)})
+
+	// bat_cmd := "test.bat " + "1111"
+	// fmt.Println(bat_cmd)
+	// cmd := exec.Command("cmd.exe", "/c", bat_cmd)
+	// out, err := cmd.CombinedOutput()
+	// if err != nil {
+	// 	log.Println(err)
+	// }
+	// fmt.Println(out)
+	// c.JSON(http.StatusOK, gin.H{"data": string(out)})
+
+	var out bytes.Buffer
+	bat_cmd := "test.bat " + "1111 222"
+	fmt.Println(bat_cmd)
+	cmd := exec.Command("cmd.exe", "/c", bat_cmd)
+	cmd.Stdout = &out
+	err := cmd.Run()
+	if err != nil {
+		log.Println(err)
+	}
+
+	fmt.Println("%s", out.String())
+	c.JSON(http.StatusOK, gin.H{"data": out.String()})
 }
 
 func CallZipPackage(c *gin.Context) {
@@ -109,4 +146,28 @@ func CallZipPackage(c *gin.Context) {
 
 func GetDirFiles(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"msg": "文件读取失败"})
+}
+
+func CallMergePackage2(c *gin.Context) {
+	hq := c.PostForm("hq")
+	fmt.Println("hq:", hq)
+
+	qs := c.PostForm("qs")
+	fmt.Println("qs:", qs)
+
+	broker := c.PostForm("broker")
+	fmt.Println("broker", broker)
+
+	//var out bytes.Buffer
+	bat_cmd := "test.bat " + hq + " " + qs + " " + broker
+	fmt.Println(bat_cmd)
+	// cmd := exec.Command("cmd.exe", "/c", bat_cmd)
+	// cmd.Stdout = &out
+	// err := cmd.Run()
+	// if err != nil {
+	// 	log.Println(err)
+	// }
+
+	// fmt.Println("%s", out.String())
+
 }

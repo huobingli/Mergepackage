@@ -3,13 +3,15 @@ import Router from 'vue-router';
 import Home from './views/home.vue';
 import Publish from './views/publish.vue';
 import Package from './views/package.vue';
+import testPackage from './views/testPackage.vue';
+import exePackage from './views/exePackage.vue';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [{
       path: '/',
-      redirect: '/index'
+      redirect: '/testPackage'
     },
     {
       path: '/index',
@@ -25,6 +27,16 @@ export default new Router({
       path: '/publish',
       name: 'publish',
       component: Publish
+    },
+    {
+      path: '/testPackage',
+      name: 'testPackage',
+      component: testPackage
+    },
+    {
+      path: '/exePackage',
+      name: 'exePackage',
+      component: exePackage
     }
   ]
 });
