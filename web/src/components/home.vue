@@ -1,73 +1,42 @@
 <template>
-  <el-container class="main-container">
-    <el-header>金融终端&下单合包</el-header>
-    <el-main>
-      <el-row>
-        <el-col :span="6">金融终端包路径</el-col>
-        <el-col :span="12">
-          <el-input
-            placeholder="请输入金融终端包"
-            v-model="jrzd_input"
-            clearable
-          ></el-input>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="6">下单包路径</el-col>
-        <el-col :span="12">
-          <el-input placeholder="请输入下单包" v-model="xiadan_input" clearable>
-          </el-input>
-        </el-col>
-      </el-row>
-    </el-main>
+  <el-upload
+    class="upload-demo"
+    action="https://jsonplaceholder.typicode.com/posts/"
+    :on-preview="handlePreview"
+    :on-remove="handleRemove"
+    :before-remove="beforeRemove"
+    multiple
+    :limit="3"
+    :on-exceed="handleExceed"
+    :file-list="fileList">
+    <el-button size="small" type="primary">点击上传</el-button>
+    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
 
-    <el-footer><el-button @click="MergePackage">打包</el-button></el-footer>
-  </el-container>
+    <input type="file" name="file" class="custom_file-input">
+  </el-upload>
 </template>
-
 <script>
-import Axios from "axios";
-
-export default {
-  data() {
-    return {
-      jrzd_input: "",
-      xiadan_input: "",
-      check_ceshi: "",
-      check_publish: "",
-      check_zip: "",
-    };
-  },
-  mounted() {},
-  methods: {
-    MergePackage() {
-      let jrzd_package = this.jrzd_input
-      let xd_package = this.xiadan_input
-
-      if (jrzd_package == "") {
-        this.$message.error("请输入正确的金融终端包")
-      }
-
-      if (xd_package == "") {
-        this.$message.error("请输入正确的下单包")
-      }
-
-      if (jrzd_package != "" && xd_package != "") {
-        // 这里localhost发布需要修改成对应机器地址
-        let request = "http://10.10.38.32:7001/CallMergePackage?jrzd=" + jrzd_package + "&xiadan=" + xd_package
-        console.log(request)
-        Axios.get(request, {}).then((res) => {
-          console.log(res)
-        });
-      }
+  export default {
+    data() {
+      return {
+        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+      };
     },
-  },
-};
+    methods: {
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePreview(file) {
+        console.log(file);
+      },
+      handleExceed(files, fileList) {
+        console.log(files)
+        console.log(fileList)
+        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
+      beforeRemove(file, fileList) {
+        return this.$confirm(`确定移除 ${ file.name }？`);
+      }
+    }
+  }
 </script>
-
-<style>
-.main-container {
-  width: 600px;
-  margin: 0px auto;
-}
-</style>

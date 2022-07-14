@@ -2,3 +2,7 @@ node_modules
 html
 *.zip
 .idea
+back/
+
+*copy*
+*.bat

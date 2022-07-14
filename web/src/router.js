@@ -5,6 +5,7 @@ import Publish from './views/publish.vue';
 import Package from './views/package.vue';
 import testPackage from './views/testPackage.vue';
 import exePackage from './views/exePackage.vue';
+import signPackage from './views/signPackage.vue';
 
 Vue.use(Router);
 
@@ -32,6 +33,11 @@ export default new Router({
       path: '/testPackage',
       name: 'testPackage',
       component: testPackage
+    },
+    {
+      path: '/signPackage',
+      name: 'signPackage',
+      component: signPackage
     },
     {
       path: '/exePackage',

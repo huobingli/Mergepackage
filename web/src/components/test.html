@@ -1,0 +1,53 @@
+<input type="file" id="fileElem" multiple accept="image/*" style="display:none">
+<a href="#" id="fileSelect">Select some files</a>
+<div id="fileList">
+    <p>No files selected!</p>
+</div>
+
+<script>
+    const fileSelect = document.getElementById("fileSelect"),
+        fileElem = document.getElementById("fileElem"),
+        fileList = document.getElementById("fileList");
+
+    fileSelect.addEventListener("click", function (e) {
+        if (fileElem) {
+            fileElem.click();
+        }
+        e.preventDefault(); // prevent navigation to "#"
+    }, false);
+
+    fileElem.addEventListener("change", handleFiles, false);
+
+    function handleFiles() {
+        console.log(this.files[0])
+        var blob = URL.createObjectURL(this.files[0])
+        console.log(blob.size)
+        console.log(blob.type)
+        console.log(blob)
+
+        var file2 = new File([blob], 'back.rar', {type: 'application/zip'});
+        console.log(file2)
+        if (!this.files.length) {
+            fileList.innerHTML = "<p>No files selected!</p>";
+        } else {
+            fileList.innerHTML = "";
+            const list = document.createElement("ul");
+            fileList.appendChild(list);
+            for (let i = 0; i < this.files.length; i++) {
+                const li = document.createElement("li");
+                list.appendChild(li);
+
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(this.files[i]);
+                img.height = 60;
+                img.onload = function () {
+                    URL.revokeObjectURL(this.src);
+                }
+                li.appendChild(img);
+                const info = document.createElement("span");
+                info.innerHTML = this.files[i].name + ": " + this.files[i].size + " bytes";
+                li.appendChild(info);
+            }
+        }
+    }
+</script>

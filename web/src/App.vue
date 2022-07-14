@@ -2,9 +2,10 @@
   <div id="app">
     <el-tabs class="app_navigate" v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="金融终端2.0测试包" name="testPackage"></el-tab-pane>
-      <el-tab-pane label="金融终端2.0安装包" name="exePackage"></el-tab-pane>
-      <!-- <el-tab-pane label="行情下单合包" name="home"></el-tab-pane>
-      <el-tab-pane label="发布包制作" name="package"></el-tab-pane>
+      <el-tab-pane label="测试包签名加壳" name="signPackage"></el-tab-pane>
+      <el-tab-pane label="测试包安装包" name="exePackage"></el-tab-pane>
+      <!-- <el-tab-pane label="行情下单合包" name="home"></el-tab-pane> -->
+      <!--<el-tab-pane label="发布包制作" name="package"></el-tab-pane>
       <el-tab-pane label="发布包上传平台" name="publish"></el-tab-pane> -->
     </el-tabs>
     <router-view />
